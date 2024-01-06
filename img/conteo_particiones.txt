@@ -1,0 +1,202 @@
+Para sujetos que tienen al menos una imagen PA
+------------------------------------------------------------------------
+Data from:  ./dataset/covid/neumo_dataset.tsv
+Pneumo count M                                Control subjects: 2870
+Pneumo count M                              Pneumonia subjects: 1285
+Pneumo count M                            infiltrates subjects: 1011
+Pneumo count M              Pneumonia and infiltrates subjects:  536
+Pneumo count F                                Control subjects: 3900
+Pneumo count F                              Pneumonia subjects: 1063
+Pneumo count F                            infiltrates subjects:  823
+Pneumo count F              Pneumonia and infiltrates subjects:  449
+------------------------------------------------------------------------
+------------------------------------------------------------------------
+0 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8302
+			C count:         5141 ==> M 2154 - (41.9%)	F 2987 - (58.1%)
+			N count:         1438 ==> M 783 - (54.45%)	F 655 - (45.55%)
+			I count:         1114 ==> M 615 - (55.21%)	F 499 - (44.79%)
+			NI count:          609 ==> M 327 - (53.69%)	F 282 - (46.31%)
+PadChest_pre-covid19 count dev images:  2757
+			C count:         1709 ==> M 699 - (40.9%)	F 1010 - (59.1%)
+			N count:          482 ==> M 267 - (55.39%)	F 215 - (44.61%)
+			I count:          367 ==> M 203 - (55.31%)	F 164 - (44.69%)
+			NI count:          199 ==> M 108 - (54.27%)	F 91 - (45.73%)
+PadChest_pre-covid19 count te images:  2764
+			C count:         1713 ==> M 730 - (42.62%)	F 983 - (57.38%)
+			N count:          477 ==> M 260 - (54.51%)	F 217 - (45.49%)
+			I count:          376 ==> M 211 - (56.12%)	F 165 - (43.88%)
+			NI count:          198 ==> M 107 - (54.04%)	F 91 - (45.96%)
+total:13823. train : 60.06% / dev : 19.95% / test : 20.0%
+------------------------------------------------------------------------
+
+1 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8307
+			C count:         5142 ==> M 2145 - (41.72%)	F 2997 - (58.28%)
+			N count:         1440 ==> M 787 - (54.65%)	F 653 - (45.35%)
+			I count:         1121 ==> M 621 - (55.4%)	F 500 - (44.6%)
+			NI count:          604 ==> M 325 - (53.81%)	F 279 - (46.19%)
+PadChest_pre-covid19 count dev images:  2756
+			C count:         1708 ==> M 713 - (41.74%)	F 995 - (58.26%)
+			N count:          480 ==> M 265 - (55.21%)	F 215 - (44.79%)
+			I count:          366 ==> M 202 - (55.19%)	F 164 - (44.81%)
+			NI count:          202 ==> M 109 - (53.96%)	F 93 - (46.04%)
+PadChest_pre-covid19 count te images:  2760
+			C count:         1713 ==> M 725 - (42.32%)	F 988 - (57.68%)
+			N count:          477 ==> M 258 - (54.09%)	F 219 - (45.91%)
+			I count:          370 ==> M 206 - (55.68%)	F 164 - (44.32%)
+			NI count:          200 ==> M 108 - (54.0%)	F 92 - (46.0%)
+total:13823. train : 60.1% / dev : 19.94% / test : 19.97%
+------------------------------------------------------------------------
+
+2 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8309
+			C count:         5154 ==> M 2161 - (41.93%)	F 2993 - (58.07%)
+			N count:         1440 ==> M 782 - (54.31%)	F 658 - (45.69%)
+			I count:         1111 ==> M 613 - (55.18%)	F 498 - (44.82%)
+			NI count:          604 ==> M 327 - (54.14%)	F 277 - (45.86%)
+PadChest_pre-covid19 count dev images:  2739
+			C count:         1685 ==> M 699 - (41.48%)	F 986 - (58.52%)
+			N count:          474 ==> M 258 - (54.43%)	F 216 - (45.57%)
+			I count:          376 ==> M 210 - (55.85%)	F 166 - (44.15%)
+			NI count:          204 ==> M 108 - (52.94%)	F 96 - (47.06%)
+PadChest_pre-covid19 count te images:  2775
+			C count:         1724 ==> M 723 - (41.94%)	F 1001 - (58.06%)
+			N count:          483 ==> M 270 - (55.9%)	F 213 - (44.1%)
+			I count:          370 ==> M 206 - (55.68%)	F 164 - (44.32%)
+			NI count:          198 ==> M 107 - (54.04%)	F 91 - (45.96%)
+total:13823. train : 60.11% / dev : 19.81% / test : 20.08%
+------------------------------------------------------------------------
+
+3 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8333
+			C count:         5173 ==> M 2171 - (41.97%)	F 3002 - (58.03%)
+			N count:         1434 ==> M 781 - (54.46%)	F 653 - (45.54%)
+			I count:         1117 ==> M 619 - (55.42%)	F 498 - (44.58%)
+			NI count:          609 ==> M 327 - (53.69%)	F 282 - (46.31%)
+PadChest_pre-covid19 count dev images:  2734
+			C count:         1688 ==> M 705 - (41.77%)	F 983 - (58.23%)
+			N count:          477 ==> M 261 - (54.72%)	F 216 - (45.28%)
+			I count:          369 ==> M 204 - (55.28%)	F 165 - (44.72%)
+			NI count:          200 ==> M 108 - (54.0%)	F 92 - (46.0%)
+PadChest_pre-covid19 count te images:  2756
+			C count:         1702 ==> M 707 - (41.54%)	F 995 - (58.46%)
+			N count:          486 ==> M 268 - (55.14%)	F 218 - (44.86%)
+			I count:          371 ==> M 206 - (55.53%)	F 165 - (44.47%)
+			NI count:          197 ==> M 107 - (54.31%)	F 90 - (45.69%)
+total:13823. train : 60.28% / dev : 19.78% / test : 19.94%
+------------------------------------------------------------------------
+
+4 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8289
+			C count:         5125 ==> M 2144 - (41.83%)	F 2981 - (58.17%)
+			N count:         1442 ==> M 786 - (54.51%)	F 656 - (45.49%)
+			I count:         1116 ==> M 620 - (55.56%)	F 496 - (44.44%)
+			NI count:          606 ==> M 328 - (54.13%)	F 278 - (45.87%)
+PadChest_pre-covid19 count dev images:  2778
+			C count:         1728 ==> M 716 - (41.44%)	F 1012 - (58.56%)
+			N count:          477 ==> M 262 - (54.93%)	F 215 - (45.07%)
+			I count:          372 ==> M 205 - (55.11%)	F 167 - (44.89%)
+			NI count:          201 ==> M 107 - (53.23%)	F 94 - (46.77%)
+PadChest_pre-covid19 count te images:  2756
+			C count:         1710 ==> M 723 - (42.28%)	F 987 - (57.72%)
+			N count:          478 ==> M 262 - (54.81%)	F 216 - (45.19%)
+			I count:          369 ==> M 204 - (55.28%)	F 165 - (44.72%)
+			NI count:          199 ==> M 107 - (53.77%)	F 92 - (46.23%)
+total:13823. train : 59.97% / dev : 20.1% / test : 19.94%
+------------------------------------------------------------------------
+
+5 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8324
+			C count:         5164 ==> M 2163 - (41.89%)	F 3001 - (58.11%)
+			N count:         1442 ==> M 790 - (54.79%)	F 652 - (45.21%)
+			I count:         1117 ==> M 619 - (55.42%)	F 498 - (44.58%)
+			NI count:          601 ==> M 323 - (53.74%)	F 278 - (46.26%)
+PadChest_pre-covid19 count dev images:  2733
+			C count:         1684 ==> M 701 - (41.63%)	F 983 - (58.37%)
+			N count:          475 ==> M 259 - (54.53%)	F 216 - (45.47%)
+			I count:          372 ==> M 207 - (55.65%)	F 165 - (44.35%)
+			NI count:          202 ==> M 109 - (53.96%)	F 93 - (46.04%)
+PadChest_pre-covid19 count te images:  2766
+			C count:         1715 ==> M 719 - (41.92%)	F 996 - (58.08%)
+			N count:          480 ==> M 261 - (54.37%)	F 219 - (45.62%)
+			I count:          368 ==> M 203 - (55.16%)	F 165 - (44.84%)
+			NI count:          203 ==> M 110 - (54.19%)	F 93 - (45.81%)
+total:13823. train : 60.22% / dev : 19.77% / test : 20.01%
+------------------------------------------------------------------------
+
+6 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8307
+			C count:         5145 ==> M 2149 - (41.77%)	F 2996 - (58.23%)
+			N count:         1442 ==> M 788 - (54.65%)	F 654 - (45.35%)
+			I count:         1116 ==> M 616 - (55.2%)	F 500 - (44.8%)
+			NI count:          604 ==> M 325 - (53.81%)	F 279 - (46.19%)
+PadChest_pre-covid19 count dev images:  2767
+			C count:         1717 ==> M 726 - (42.28%)	F 991 - (57.72%)
+			N count:          476 ==> M 261 - (54.83%)	F 215 - (45.17%)
+			I count:          369 ==> M 205 - (55.56%)	F 164 - (44.44%)
+			NI count:          205 ==> M 110 - (53.66%)	F 95 - (46.34%)
+PadChest_pre-covid19 count te images:  2749
+			C count:         1701 ==> M 708 - (41.62%)	F 993 - (58.38%)
+			N count:          479 ==> M 261 - (54.49%)	F 218 - (45.51%)
+			I count:          372 ==> M 208 - (55.91%)	F 164 - (44.09%)
+			NI count:          197 ==> M 107 - (54.31%)	F 90 - (45.69%)
+total:13823. train : 60.1% / dev : 20.02% / test : 19.89%
+------------------------------------------------------------------------
+
+7 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8307
+			C count:         5144 ==> M 2141 - (41.62%)	F 3003 - (58.38%)
+			N count:         1443 ==> M 789 - (54.68%)	F 654 - (45.32%)
+			I count:         1115 ==> M 617 - (55.34%)	F 498 - (44.66%)
+			NI count:          605 ==> M 324 - (53.55%)	F 281 - (46.45%)
+PadChest_pre-covid19 count dev images:  2771
+			C count:         1716 ==> M 724 - (42.19%)	F 992 - (57.81%)
+			N count:          479 ==> M 260 - (54.28%)	F 219 - (45.72%)
+			I count:          374 ==> M 209 - (55.88%)	F 165 - (44.12%)
+			NI count:          202 ==> M 109 - (53.96%)	F 93 - (46.04%)
+PadChest_pre-covid19 count te images:  2745
+			C count:         1703 ==> M 718 - (42.16%)	F 985 - (57.84%)
+			N count:          475 ==> M 261 - (54.95%)	F 214 - (45.05%)
+			I count:          368 ==> M 203 - (55.16%)	F 165 - (44.84%)
+			NI count:          199 ==> M 109 - (54.77%)	F 90 - (45.23%)
+total:13823. train : 60.1% / dev : 20.05% / test : 19.86%
+------------------------------------------------------------------------
+
+8 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8288
+			C count:         5135 ==> M 2134 - (41.56%)	F 3001 - (58.44%)
+			N count:         1436 ==> M 786 - (54.74%)	F 650 - (45.26%)
+			I count:         1116 ==> M 617 - (55.29%)	F 499 - (44.71%)
+			NI count:          601 ==> M 324 - (53.91%)	F 277 - (46.09%)
+PadChest_pre-covid19 count dev images:  2749
+			C count:         1698 ==> M 718 - (42.29%)	F 980 - (57.71%)
+			N count:          478 ==> M 258 - (53.97%)	F 220 - (46.03%)
+			I count:          367 ==> M 203 - (55.31%)	F 164 - (44.69%)
+			NI count:          206 ==> M 110 - (53.4%)	F 96 - (46.6%)
+PadChest_pre-covid19 count te images:  2786
+			C count:         1730 ==> M 731 - (42.25%)	F 999 - (57.75%)
+			N count:          483 ==> M 266 - (55.07%)	F 217 - (44.93%)
+			I count:          374 ==> M 209 - (55.88%)	F 165 - (44.12%)
+			NI count:          199 ==> M 108 - (54.27%)	F 91 - (45.73%)
+total:13823. train : 59.96% / dev : 19.89% / test : 20.15%
+------------------------------------------------------------------------
+
+9 fold cross validation percentage
+PadChest_pre-covid19 count tr images:  8340
+			C count:         5175 ==> M 2179 - (42.11%)	F 2996 - (57.89%)
+			N count:         1445 ==> M 789 - (54.6%)	F 656 - (45.4%)
+			I count:         1115 ==> M 617 - (55.34%)	F 498 - (44.66%)
+			NI count:          605 ==> M 325 - (53.72%)	F 280 - (46.28%)
+PadChest_pre-covid19 count dev images:  2724
+			C count:         1674 ==> M 698 - (41.7%)	F 976 - (58.3%)
+			N count:          477 ==> M 262 - (54.93%)	F 215 - (45.07%)
+			I count:          372 ==> M 206 - (55.38%)	F 166 - (44.62%)
+			NI count:          201 ==> M 108 - (53.73%)	F 93 - (46.27%)
+PadChest_pre-covid19 count te images:  2759
+			C count:         1714 ==> M 706 - (41.19%)	F 1008 - (58.81%)
+			N count:          475 ==> M 259 - (54.53%)	F 216 - (45.47%)
+			I count:          370 ==> M 206 - (55.68%)	F 164 - (44.32%)
+			NI count:          200 ==> M 109 - (54.5%)	F 91 - (45.5%)
+total:13823. train : 60.33% / dev : 19.71% / test : 19.96%
+------------------------------------------------------------------------
