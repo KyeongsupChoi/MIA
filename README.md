@@ -1,3 +1,5 @@
+# Dataset Description
+
 BIMCV-COVID19+ dataset is a large dataset with chest X-ray images CXR (CR, DX) and computed tomography (CT) imaging of COVID-19
 patients along with their radiographic findings, pathologies, polymerase chain reaction (PCR), immunoglobulin G (IgG) 
 and immunoglobulin M (IgM) diagnostic antibody tests and radiographic reports from Medical Imaging Databank in
@@ -9,6 +11,9 @@ semantic segmentation of radiographic findings. Moreover, extensive information 
 demographic information, type of projection and acquisition parameters for the imaging study, among others.
 These iterations of the database include 21342 CR, 34829 DX and 7918 CT studies.
 
+# Project Goals
+
+# Libraries and Frameworks Used
 Python
 2 YOE - Web and Data Science (Smartfarms Smartfactories)
 Pytorch
