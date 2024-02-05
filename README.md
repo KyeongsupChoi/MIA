@@ -14,6 +14,8 @@ These iterations of the database include 21342 CR, 34829 DX and 7918 CT studies.
 # Project Goals
 
 # Libraries and Frameworks Used
+
+STATSMODEL GCP Multithreading Causal Inference / PGMs/Explainable AI
 Python
 2 YOE - Web and Data Science (Smartfarms Smartfactories)
 Pytorch
