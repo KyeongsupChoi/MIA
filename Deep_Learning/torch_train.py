@@ -1,21 +1,92 @@
 import torch
-from torch import nn
+import torch.nn as nn
+import torch.optim as optim
 from torch.utils.data import DataLoader
-from torchvision import datasets
-from torchvision.transforms import ToTensor
+from torchvision import datasets, transforms, models
 
-# Download training data from open datasets.
-training_data = datasets.FashionMNIST(
-    root="data",
-    train=True,
-    download=True,
-    transform=ToTensor(),
-)
+# Define transformation for image preprocessing
+transform = transforms.Compose([
+    transforms.Resize((224, 224)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+])
 
-# Download test data from open datasets.
-test_data = datasets.FashionMNIST(
-    root="data",
-    train=False,
-    download=True,
-    transform=ToTensor(),
-)
+# Load dataset
+train_data = datasets.ImageFolder(root="../Data/train_dataset.csv", transform=transform)
+test_data = datasets.ImageFolder(root="../Data/test_dataset.csv", transform=transform)
+
+# Define DataLoader
+train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=32)
+
+# Define the model
+model = models.resnet18(pretrained=True)  # You can use other pretrained models like resnet50, etc.
+num_features = model.fc.in_features
+model.fc = nn.Linear(num_features, len(train_data.classes))
+
+# Define loss function and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# Define device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Move model to the device
+model = model.to(device)
+
+# Training the model
+num_epochs = 10
+
+for epoch in range(num_epochs):
+    model.train()
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    for inputs, labels in train_loader:
+        inputs, labels = inputs.to(device), labels.to(device)
+
+        optimizer.zero_grad()
+
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+
+        _, predicted = outputs.max(1)
+        total += labels.size(0)
+        correct += predicted.eq(labels).sum().item()
+
+        running_loss += loss.item()
+
+    train_loss = running_loss / len(train_loader)
+    train_accuracy = correct / total
+
+    # Evaluate the model
+    model.eval()
+    running_loss = 0.0
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for inputs, labels in test_loader:
+            inputs, labels = inputs.to(device), labels.to(device)
+
+            outputs = model(inputs)
+            loss = criterion(outputs, labels)
+
+            _, predicted = outputs.max(1)
+            total += labels.size(0)
+            correct += predicted.eq(labels).sum().item()
+
+            running_loss += loss.item()
+
+    test_loss = running_loss / len(test_loader)
+    test_accuracy = correct / total
+
+    print(f"Epoch [{epoch+1}/{num_epochs}], "
+          f"Train Loss: {train_loss:.4f}, Train Acc: {train_accuracy:.4f}, "
+          f"Test Loss: {test_loss:.4f}, Test Acc: {test_accuracy:.4f}")
+
+# Save the trained model
+torch.save(model.state_dict(), 'chest_xray_classifier.pth')
