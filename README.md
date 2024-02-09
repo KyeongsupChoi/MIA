@@ -29,4 +29,4 @@ Zeta_DLBasedComputerAidedDetectionCOVID-19.pdf
 ## Libraries and Frameworks Used
 Pytorch, SKlearn, Statsmodels, Pandas, OpenCV, GCP
 
-Jira Confluence Statistics Multithreading Causal Inference / PGMs/Explainable AI
+Jira Confluence Statistics Multithreading Causal Inference / PGMs/Explainable AI, Prefect
