@@ -104,9 +104,9 @@ General practitioners 0.7686 (0.7311–0.8062) 0.8940 (0.8663–0.9218)
 
 - General practitioners benefited most from CADs
 
-- Utilize different data such as patient blood pH, blood cell count, age to enhance diagnosis accuracy?
+- Different data such as patient blood pH, blood cell count, age could be utilized to enhance diagnosis accuracy.
 
-- Use opacity for lower areas for project
+- Opacity in lower areas could be used as a general parameter for project
 
 # Gamma_AIBasedDetectionDiagnosticPerformance.pdf
 
