@@ -8,6 +8,25 @@
 
 ## Summary
 
+- This study aimed to investigate the clinical implications and prognostic value of (AI)-based results for chest radiographs (CXR) in COVID-19 patients. 
+
+- A commercial AI-based software(Lunit INSIGHT CXR, version 3) was used to assess CXR data for consolidation and pleural effusion scores.
+
+- Clinical data, including laboratory results, were analyzed for possible prognostic factors. Total O2 supply period, the last SpO2 result, and deterioration were evaluated as prognostic indicators of treatment outcome. 
+
+- Generalized linear mixed model and regression tests were used to examine the prognostic value of CXR results. 
+
+- Among a total of 228 patients, consolidation scores had a significant association with erythrocyte sedimentation rate and C-reactive protein changes. 
+
+- Initial consolidation scores were associated with the last SpO2 result (estimate −0.018, p = 0.024). 
+
+- All consolidation scores during admission showed significant association with the total O2 supply period and the last SpO2 result.
+
+- Early changing degree of consolidation score showed an association with deterioration (odds ratio 1.017, 95% confidence interval 1.005–1.03). 
+
+- In conclusion, AI-based CXR results for consolidation have potential prognostic value for predicting treatment outcomes in COVID-19 patients.
+
+
 ## Thoughts
 
 # Delta_COVID-19PneumoniaCXRDLComputerAidedSystem.pdf
