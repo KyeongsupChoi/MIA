@@ -2,7 +2,39 @@
 
 ## Summary
 
+- Timely and accurate interpretation of chest radiographs obtained to evaluate endotracheal tube (ETT) position is important for facilitating prompt adjustment if needed.
+
+- The purpose of thi study was to evaluate the performance of a (DL)-based artificial intelligence (AI) system for detecting ETT presence and position on chest radiographs.
+
+- This retrospective study included 539 chest radiographs obtained immediately after ETT insertion from January 1 to March 31, 2020, in 505 patients (293 men, 212 women; mean age, 63 years) from institution A (sample A); 637 chest radiographs obtained from January 1 to January 3, 2020, in 302 patients (157 men, 145 women; mean age, 66 years) in the ICU (with or without an ETT) from institution A (sample B);
+and 546 chest radiographs obtained from January 1 to January 20, 2020, in 83 patients
+(54 men, 29 women; mean age, 70 years) in the ICU (with or without an ETT) from institution B (sample C). 
+
+- A commercial DL-based AI system was used to identify ETT presence and measure ETT tip-to-carina distance (TCD). 
+
+- The reference standard for proper ETT position was TCD between greater than 3 cm and less than 7 cm, determined by human
+readers. 
+
+- Critical ETT position was separately defined as ETT tip below the carina or TCD
+of 1 cm or less. 
+
+- AI had sensitivity and specificity for identification of ETT presence of 100.0% and 98.7% (sample B) and 99.2% and 94.5% (sample C). 
+
+- AI had sensitivity and specificity for identification of improper ETT position of 72.5% and 92.0% (sample A),
+78.9% and 100.0% (sample B), and 83.7% and 99.1% (sample C). 
+
+- At a threshold y-axis TCD of 2 cm or less, AI had sensitivity and specificity for critical ETT position of 100.0% and 96.7% (sample A), 100.0% and 100.0% (sample B), and 100.0% and 99.2% (sample C).
+
+- AI identified improperly positioned ETTs on chest radiographs obtained after ETT insertion as well as on chest radiographs obtained of patients in the ICU at two institutions.
+
+- Automated AI identification of improper ETT position on chest
+radiographs may allow earlier repositioning and thereby reduce complications.
+
 ## Thoughts
+
+- Improper ETT placement had the most glaring low sensitivity(73%-84), meaning the AI could not detect some cases. 
+
+- More or better reference points and inclusion of other factors such as angle of ETT could improve sensitivity.
 
 # Beta_AIBasedChestRadiographsAssessingClinicalOutcomesCOVID-19.pdf
 
@@ -26,8 +58,17 @@
 
 - In conclusion, AI-based CXR results for consolidation have potential prognostic value for predicting treatment outcomes in COVID-19 patients.
 
+- Overfitting has been a major obstacle to the actual clinical application of AI algorithms.
+
+- Pleural effusion score did not show significant results.
 
 ## Thoughts
+
+- Diverse data sources could potentially address overfitting.
+
+- Patients lacking followup exams was a weakpoint in the data.
+
+- AI was a component in this study, but the fact that there were patterns between patient factors, means an AI for prognosis could potentially be developed.
 
 # Delta_COVID-19PneumoniaCXRDLComputerAidedSystem.pdf
 
