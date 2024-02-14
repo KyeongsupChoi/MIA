@@ -1,5 +1,76 @@
 # Medical Image Analyzer(MIA) Project
 - Analyzing Chest Radiography(CR) images utilizing Pytorch and OpenCV, with insights from relevant research papers.
+
+## Project Directory Layout
+
+```bash
+< PROJECT ROOT >
+   |
+   |-- Analysis_Visualization/                               # Main app directory
+   |    |
+   |    |-- exploratory/                            # Holds the html template files
+   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |
+   |    |-- asgi.py                          # ASGI config for mysite project.
+   |    |-- forms.py                         # Define Wendler forms
+   |    |-- models.py                        # Define Wendler models
+   |    |-- settings.py                      # Define Global Settings
+   |    |-- urls.py                          # Define URLs served by all apps/nodes 
+   |    |-- views.py                         # Handles Wendler input and calculations
+   |    |-- wsgi.py                          # Deploys app in production
+   |    |
+   |    |-- venv/                            # Virtual env directory
+   |-- Data/                               # Main app directory
+   |    |
+   |    |-- exploratory/                            # Holds the html template files
+   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |
+   |    |-- asgi.py                          # ASGI config for mysite project.
+   |    |-- forms.py                         # Define Wendler forms
+   |    |-- models.py                        # Define Wendler models
+   |    |-- settings.py                      # Define Global Settings
+   |    |-- urls.py                          # Define URLs served by all apps/nodes 
+   |    |-- views.py                         # Handles Wendler input and calculations
+   |    |-- wsgi.py                          # Deploys app in production
+   |    |
+   |    |-- venv/ 
+   |-- Deep_Learning/                               # Main app directory
+   |    |
+   |    |-- exploratory/                            # Holds the html template files
+   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |
+   |    |-- asgi.py                          # ASGI config for mysite project.
+   |    |-- forms.py                         # Define Wendler forms
+   |    |-- models.py                        # Define Wendler models
+   |    |-- settings.py                      # Define Global Settings
+   |    |-- urls.py                          # Define URLs served by all apps/nodes 
+   |    |-- views.py                         # Handles Wendler input and calculations
+   |    |-- wsgi.py                          # Deploys app in production
+   |    |
+   |    |-- venv/ 
+   |-- Research Papers/                               # Main app directory
+   |    |
+   |    |-- exploratory/                            # Holds the html template files
+   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |
+   |    |-- asgi.py                          # ASGI config for mysite project.
+   |    |-- forms.py                         # Define Wendler forms
+   |    |-- models.py                        # Define Wendler models
+   |    |-- settings.py                      # Define Global Settings
+   |    |-- urls.py                          # Define URLs served by all apps/nodes 
+   |    |-- views.py                         # Handles Wendler input and calculations
+   |    |-- wsgi.py                          # Deploys app in production
+   |    |
+   |    |-- venv/                           # SQLite storage
+   |-- README.md                             # Standard readme documentation
+   |-- requirements.txt                      # Development modules
+   |-- manage.py                             # Start the app - Django default start script
+   |
+   |-- ************************************************************************
+```
+
+<br />
+
 ## Dataset Description
 - BIMCV-COVID19+ dataset is a large dataset with chest X-ray images CXR (CR, DX) and computed tomography (CT) imaging of COVID-19 patients along with their radiographic findings, pathologies, polymerase chain reaction (PCR), immunoglobulin G (IgG) and immunoglobulin M (IgM) diagnostic antibody tests and radiographic reports from Medical Imaging Databank in Valencian Region Medical Image Bank (BIMCV).
 - The findings are mapped onto standard Unified Medical Language System (UMLS) terminology and they cover a wide spectrum of thoracic entities, contrasting with the much more reduced number of entities annotated in previous datasets.
