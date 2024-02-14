@@ -6,65 +6,30 @@
 ```bash
 < PROJECT ROOT >
    |
-   |-- Analysis_Visualization/                               # Main app directory
+   |-- Analysis_Visualization/                    # Main app directory
    |    |
-   |    |-- exploratory/                            # Holds the html template files
-   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |-- exploratory.py                        # Exploratory data analysis
+   |    |-- img_scan.py                           # ASGI config for mysite project.
+   |    |-- test_train_make.py                    # Define Wendler forms
+   |
+   |-- Data/                                      # Main app directory
    |    |
-   |    |-- asgi.py                          # ASGI config for mysite project.
-   |    |-- forms.py                         # Define Wendler forms
-   |    |-- models.py                        # Define Wendler models
-   |    |-- settings.py                      # Define Global Settings
-   |    |-- urls.py                          # Define URLs served by all apps/nodes 
-   |    |-- views.py                         # Handles Wendler input and calculations
-   |    |-- wsgi.py                          # Deploys app in production
+   |    |-- img/                                  # Holds the html template files   
    |    |
-   |    |-- venv/                            # Virtual env directory
-   |-- Data/                               # Main app directory
+   |    |-- sliced.csv                            # ASGI config for mysite project.
+   |    |-- test_dataset.csv                      # Define Wendler forms
+   |    |-- train_dataset.csv                     # Define Wendler models
+   |
+   |-- Deep_Learning/                             # Main app directory
    |    |
-   |    |-- exploratory/                            # Holds the html template files
-   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
+   |    |-- torch_train.py                        # ASGI config for mysite project.
+   |
+   |-- Research Papers/                           # Main app directory
    |    |
-   |    |-- asgi.py                          # ASGI config for mysite project.
-   |    |-- forms.py                         # Define Wendler forms
-   |    |-- models.py                        # Define Wendler models
-   |    |-- settings.py                      # Define Global Settings
-   |    |-- urls.py                          # Define URLs served by all apps/nodes 
-   |    |-- views.py                         # Handles Wendler input and calculations
-   |    |-- wsgi.py                          # Deploys app in production
-   |    |
-   |    |-- venv/ 
-   |-- Deep_Learning/                               # Main app directory
-   |    |
-   |    |-- exploratory/                            # Holds the html template files
-   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
-   |    |
-   |    |-- asgi.py                          # ASGI config for mysite project.
-   |    |-- forms.py                         # Define Wendler forms
-   |    |-- models.py                        # Define Wendler models
-   |    |-- settings.py                      # Define Global Settings
-   |    |-- urls.py                          # Define URLs served by all apps/nodes 
-   |    |-- views.py                         # Handles Wendler input and calculations
-   |    |-- wsgi.py                          # Deploys app in production
-   |    |
-   |    |-- venv/ 
-   |-- Research Papers/                               # Main app directory
-   |    |
-   |    |-- exploratory/                            # Holds the html template files
-   |    |    |-- wendler.html                # Wendler html file with Django tags and Bootstrap          
-   |    |
-   |    |-- asgi.py                          # ASGI config for mysite project.
-   |    |-- forms.py                         # Define Wendler forms
-   |    |-- models.py                        # Define Wendler models
-   |    |-- settings.py                      # Define Global Settings
-   |    |-- urls.py                          # Define URLs served by all apps/nodes 
-   |    |-- views.py                         # Handles Wendler input and calculations
-   |    |-- wsgi.py                          # Deploys app in production
-   |    |
-   |    |-- venv/                           # SQLite storage
-   |-- README.md                             # Standard readme documentation
-   |-- requirements.txt                      # Development modules
-   |-- manage.py                             # Start the app - Django default start script
+   |    |-- AnalysisReport.md                     # ASGI config for mysite project.
+   |
+   |-- README.md                                  # Standard readme documentation
+   |-- requirements.txt                           # Development modules
    |
    |-- ************************************************************************
 ```
