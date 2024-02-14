@@ -72,7 +72,23 @@ radiographs may allow earlier repositioning and thereby reduce complications.
 
 # Delta_COVID-19PneumoniaCXRDLComputerAidedSystem.pdf
 
+- Chest X-rays (CXRs) can help triage for (COVID-19) patients in resource-constrained environments, and a computer-aided detection system (CAD) that can identify pneumonia on CXR may help the triage of patients
+
+- In this study, CXRs of patients with and without COVID-19 confirmed by reverse transcriptase polymerase chain reaction (RT-PCR) were retrospectively collected from four and one institution, respectively, 
+
+- A commercialized, regulatory-approved CAD that can identify various abnormalities including pneumonia was used to analyze each CXR. 
+
+- Performance of the CAD was evaluated using area under the receiver operating characteristic curves (AUCs), with reference standards of the RT-PCR results and the presence of findings of pneumonia on chest CTs obtained within 24 hours from the CXR. 
+
+- The performance of CAD (AUCs, 0.714 and 0.790 against RT-PCR and chest CT, respectively hereinafter) were similar with those of thoracic radiologists (AUCs, 0.701 and 0.784), and higher than those of non-radiologist physicians (AUCs, 0.584 and 0.650). 
+
+- Non-radiologist physicians showed significantly improved performance when assisted with the CAD (AUCs, 0.584 to 0.664 and 0.650 to 0.738). In addition, inter-reader agreement among physicians was also improved in the CAD-assisted interpretation (Fleiss’ kappa coefficient, 0.209 to 0.322).
+
 ## Summary
+
+- Non-radiologist doctors seem to benefit most and resource strained locations would obviously benefit but I personally wonder how this CAD can be tuned to outperform radiologists
+
+- Lab result and Radiologist confirmation on wider dataset could potentially boost the algorithm's accuracy
 
 ## Thoughts
 
