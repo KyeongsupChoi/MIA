@@ -6,27 +6,27 @@
 ```bash
 < PROJECT ROOT >
    |
-   |-- Analysis_Visualization/                    # Main app directory
+   |-- Analysis_Visualization/                    # Drawing initial insights from data
    |    |
    |    |-- exploratory.py                        # Exploratory data analysis
-   |    |-- img_scan.py                           # ASGI config for mysite project.
-   |    |-- test_train_make.py                    # Define Wendler forms
+   |    |-- img_scan.py                           # Scanning images with openCV
+   |    |-- test_train_make.py                    # Creating the test train dataset
    |
-   |-- Data/                                      # Main app directory
+   |-- Data/                                      # Data directory
    |    |
-   |    |-- img/                                  # Holds the html template files   
+   |    |-- img/                                  # Holds the CXR images in png format  
    |    |
-   |    |-- sliced.csv                            # ASGI config for mysite project.
-   |    |-- test_dataset.csv                      # Define Wendler forms
-   |    |-- train_dataset.csv                     # Define Wendler models
+   |    |-- sliced.csv                            # Cleaned and processed from tsv
+   |    |-- test_dataset.csv                      # Test dataset
+   |    |-- train_dataset.csv                     # Train dataset
    |
-   |-- Deep_Learning/                             # Main app directory
+   |-- Deep_Learning/                             # Deep Learning directory
    |    |
-   |    |-- torch_train.py                        # ASGI config for mysite project.
+   |    |-- torch_train.py                        # Pytorch model creation
    |
-   |-- Research Papers/                           # Main app directory
+   |-- Research Papers/                           # Research directory
    |    |
-   |    |-- AnalysisReport.md                     # ASGI config for mysite project.
+   |    |-- AnalysisReport.md                     # Insights from Research papers
    |
    |-- README.md                                  # Standard readme documentation
    |-- requirements.txt                           # Development modules
