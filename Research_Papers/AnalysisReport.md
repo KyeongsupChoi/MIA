@@ -4,7 +4,7 @@
 
 - Timely and accurate interpretation of chest radiographs obtained to evaluate endotracheal tube (ETT) position is important for facilitating prompt adjustment if needed.
 
-- The purpose of thi study was to evaluate the performance of a (DL)-based artificial intelligence (AI) system for detecting ETT presence and position on chest radiographs.
+- The purpose of this study was to evaluate the performance of a (DL)-based artificial intelligence (AI) system for detecting ETT presence and position on chest radiographs.
 
 - This retrospective study included 539 chest radiographs obtained immediately after ETT insertion from January 1 to March 31, 2020, in 505 patients (293 men, 212 women; mean age, 63 years) from institution A (sample A); 637 chest radiographs obtained from January 1 to January 3, 2020, in 302 patients (157 men, 145 women; mean age, 66 years) in the ICU (with or without an ETT) from institution A (sample B);
 and 546 chest radiographs obtained from January 1 to January 20, 2020, in 83 patients
@@ -97,7 +97,23 @@ radiographs may allow earlier repositioning and thereby reduce complications.
 
 ## Summary
 
+- The aim of this study was to evaluate the efficacy of the DL algorithm for detecting COVID-19 pneumonia on CR compared with formal radiology reports. 
+
+- This is a retrospective study of adult patients that were diagnosed as positive COVID-19 cases based on the reverse transcription polymerase chain reaction test
+
+- The overall sensitivity and specificity of the DL algorithm for detecting COVID-19 pneumonia on CR were 95.6%, and 88.7%, respectively. 
+
+- The area under the curve value of the DL algorithm for the detection of COVID-19 with pneumonia was 0.921. 
+
+- The DL algorithm demonstrated a satisfactory diagnostic performance comparable with that of formal radiology reports in the CR-based diagnosis of pneumonia in COVID-19 patients.
+
 ## Thoughts
+
+- There were 11 false-positive results obtained with the DL algorithm: normal vascular marking(n = 6), increased vascular marking (n = 2), emphysematous lung (n = 1), interstitial thickening (n = 1), and subsegmental atelectasis (n = 1).
+
+- Targeted fine-tuning to avoid the most common false-positive(normal vascular marking)
+
+- DL system had a higher Sensitivity but lower Specificity than formal radiology report
 
 # Eta_DLComputerAidedAlgorithmChestRadiographs.pdf
 
