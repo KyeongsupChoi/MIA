@@ -226,4 +226,35 @@ was consolidation.
 
 ## Summary
 
+- This study aimed to describe the experience of implementing a deep learning-based computer-aided detection (CAD) system for the 
+interpretation of chest X-ray radiographs (CXR) of suspected coronavirus disease (COVID-19) patients and investigate the 
+diagnostic performance of CXR interpretation with CAD assistance.
+
+- In this single-center retrospective study, initial CXR of patients with suspected or confirmed 
+COVID-19 were investigated. 
+
+- A commercialized deep learning-based CAD system that can identify various abnormalities on 
+CXR was implemented for the interpretation of CXR in daily practice. 
+
+- The diagnostic performance of radiologists with CAD 
+assistance were evaluated based on two different reference standards: 1) real-time reverse transcriptase-polymerase chain 
+reaction (rRT-PCR) results for COVID-19 and 2) pulmonary abnormality suggesting pneumonia on chest CT. 
+- The turnaround 
+times (TATs) of radiology reports for CXR and rRT-PCR results were also evaluated.
+- Among 332 patients (male:female, 173:159; mean age, 57 years) with available rRT-PCR results, 16 patients (4.8%) 
+were diagnosed with COVID-19. 
+- Using CXR, radiologists with CAD assistance identified rRT-PCR positive COVID-19 patients 
+with sensitivity and specificity of 68.8% and 66.7%, respectively. 
+- Among 119 patients (male:female, 75:44; mean age, 69 
+years) with available chest CTs, radiologists assisted by CAD reported pneumonia on CXR with a sensitivity of 81.5% and a 
+specificity of 72.3%. 
+- The TATs of CXR reports were significantly shorter than those of rRT-PCR results (median 51 vs. 507 
+minutes; p < 0.001).
+
 ## Thoughts
+
+- Formal radiology reports did better on sensitivity and specificity for symptoms > 3 days
+
+- CAD was better for sensitivity for asymptomatic/<3 days but specificity was worse across the board. 
+
+- CAD can find hard to detect pneumonia but can produce more falso positives than radiologists.
