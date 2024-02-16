@@ -162,15 +162,20 @@ General practitioners 0.7686 (0.7311–0.8062) 0.8940 (0.8663–0.9218)
 - A reader test was conducted with five trainee radiologists over three interpretation sessions. In each
 session, the chest radiographs were interpreted using AI-CAD with one of the three visualization
 methods in random order. 
+
 - Examination-level sensitivity and accuracy, and lesion-level detection rates
 for clinically significant abnormalities were evaluated for the three visualization methods. 
+
 - The sensitivity (p = 0.007) and accuracy (p = 0.037) of the combined method are significantly higher than that
 of the closed-line method. 
+
 - Detection rates using the heat map method (p = 0.043) and the combined
 method (p = 0.004) are significantly higher than those using the closed-line method. 
+
 - The methods
 for visualizing AI-CAD results for chest radiographs influenced the performance of radiologists’
 interpretations. 
+
 - Combining the closed-line and heat map methods for visualizing AI-CAD results led
 to the highest sensitivity and accuracy of radiologists.
 
@@ -184,7 +189,38 @@ to the highest sensitivity and accuracy of radiologists.
 
 ## Summary
 
+- The aim of the study is to develop and validate a multimodal artificial intelligence (AI) system using clinical findings, laboratory data and AI-interpreted
+features of chest X-rays (CXRs), and to predict the prognosis and the required interventions for
+patients diagnosed with COVID-19, using multi-center data. 
+- In total, 2282 real-time reverse transcriptase polymerase chain reaction-confirmed COVID-19 patients’ initial clinical findings, laboratory
+data and CXRs were retrospectively collected from 13 medical centers in South Korea, between
+January 2020 and June 2021. 
+- The prognostic outcomes collected included intensive care unit (ICU)
+admission and in-hospital mortality. 
+- Intervention outcomes included the use of oxygen (O2
+) supplementation, mechanical ventilation and extracorporeal membrane oxygenation (ECMO). 
+- A deep
+learning algorithm detecting 10 common CXR abnormalities (DLAD-10) was used to infer the initial
+CXR taken. 
+- A random forest model with a quantile classifier was used to predict the prognostic
+and intervention outcomes, using multimodal data. 
+- The area under the receiver operating curve
+(AUROC) values for the single-modal model, using clinical findings, laboratory data and the outputs
+from DLAD-10, were 0.742 (95% confidence interval [CI], 0.696–0.788), 0.794 (0.745–0.843) and 0.770
+(0.724–0.815), respectively. 
+- The AUROC of the combined model, using clinical findings, laboratory
+data and DLAD-10 outputs, was significantly higher at 0.854 (0.820–0.889) than that of all other
+models (p < 0.001, using DeLong’s test). 
+- In the order of importance, age, dyspnea, consolidation
+and fever were significant clinical variables for prediction. 
+- The most predictive DLAD-10 output
+was consolidation. 
+
 ## Thoughts
+
+- Predicting prognosis and required interventions can be predicted but patient welfare and advocacy should be considered for any applications in real life scenarios
+
+- Most likely a doctor utilizing an AI system for accountability purposes
 
 # Zeta_DLBasedComputerAidedDetectionCOVID-19.pdf
 
