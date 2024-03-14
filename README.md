@@ -78,5 +78,5 @@ Hwang, E. J., Kim, H., Yoon, S. H., Goo, J. M., & Park, C. M. (2020). Implementa
 Pytorch | SKlearn | Statsmodels | Pandas | OpenCV 
 
 #### To-be added
-GCP | Statistics | Multithreading | Causal Inference | PGMs | Explainable AI | Prefect
+GCP | Statistics | Multithreading | Causal Inference | PGMs | Explainable AI | Prefect |
 AUC | Specificity | Sensitivity | NPV | PPV | Confusion Matrix | Cookicutter | Metrics | Docker
