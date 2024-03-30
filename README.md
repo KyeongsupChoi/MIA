@@ -54,39 +54,6 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
-## Project Directory Layout
-
-```bash
-< PROJECT ROOT >
-   |
-   |-- Analysis_Visualization/                    # Drawing initial insights from data
-   |    |
-   |    |-- exploratory.py                        # Exploratory data analysis
-   |    |-- img_scan.py                           # Scanning images with openCV
-   |    |-- test_train_make.py                    # Creating the test train dataset
-   |
-   |-- Data/                                      # Data directory
-   |    |
-   |    |-- img/                                  # Holds the CXR images in png format  
-   |    |
-   |    |-- sliced.csv                            # Cleaned and processed from tsv
-   |    |-- test_dataset.csv                      # Test dataset
-   |    |-- train_dataset.csv                     # Train dataset
-   |
-   |-- Deep_Learning/                             # Deep Learning directory
-   |    |
-   |    |-- torch_train.py                        # Pytorch model creation
-   |
-   |-- Research Papers/                           # Research directory
-   |    |
-   |    |-- AnalysisReport.md                     # Insights from Research papers
-   |
-   |-- README.md                                  # Standard readme documentation
-   |-- requirements.txt                           # Development modules
-   |
-   |-- ************************************************************************
-```
 
 <br />
 
@@ -134,3 +101,5 @@ Pytorch | SKlearn | Statsmodels | Pandas | OpenCV | Cookiecutter | Streamlit
 #### To-be added
 GCP | Statistics | Multithreading | Causal Inference | PGMs | Explainable AI | Prefect |
 AUC | Specificity | Sensitivity | NPV | PPV | Confusion Matrix | Metrics | Docker
+
+<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
