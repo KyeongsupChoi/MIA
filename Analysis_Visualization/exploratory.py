@@ -7,7 +7,7 @@ cols = ["ImageID", "StudyDate_DICOM", "StudyID", "PatientID",
         "Partition_occurrences", "Partitionlabel_occurrences"]
 
 # Read the data from the TSV file into a DataFrame
-reporty = pd.read_csv('../Data/neumo_dataset_balanced_0.tsv', usecols=cols, sep='\t')
+reporty = pd.read_csv('../data/neumo_dataset_balanced_0.tsv', usecols=cols, sep='\t')
 
 # Explode the 'Labels' column to separate multi-label entries
 df_exploded = reporty.explode('Labels')
