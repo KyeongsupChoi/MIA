@@ -1,7 +1,7 @@
 MIA
 ==============================
 
-Analyzing CR images utilizing PyTorch and OpenCV, with insights from relevant research papers
+Analyzing Chest Radiography images utilizing PyTorch and OpenCV, with insights from relevant research papers
 
 Project Organization
 ------------
