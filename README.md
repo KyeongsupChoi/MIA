@@ -1,7 +1,7 @@
 MIA
 ==============================
 
-Analyzing CR images utilizing PyTorch and OpenCV, with insights from relevant research papers
+Analyzing Chest Radiography images utilizing PyTorch and OpenCV, with insights from relevant research papers
 
 Project Organization
 ------------
@@ -96,7 +96,7 @@ Lee, J. H., Ahn, J. S., Chung, M. J., Jeong, Y. J., Kim, J. H., Lim, J., Kim, J.
 Hwang, E. J., Kim, H., Yoon, S. H., Goo, J. M., & Park, C. M. (2020). Implementation of a Deep Learning-Based Computer-Aided detection system for the interpretation of chest radiographs in patients suspected for COVID-19. Korean Journal of Radiology, 21(10), 1150. https://doi.org/10.3348/kjr.2020.0536
 
 ## Libraries and Frameworks Used
-Pytorch | SKlearn | Statsmodels | Pandas | OpenCV | Cookiecutter | Streamlit
+Pytorch | Scikit-learn | Statsmodels | Pandas | OpenCV | Cookiecutter | Streamlit
 
 #### To-be added
 GCP | Statistics | Multithreading | Causal Inference | PGMs | Explainable AI | Prefect |
