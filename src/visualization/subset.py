@@ -4,7 +4,7 @@ import numpy
 numpy.set_printoptions(threshold=sys.maxsize)
 
 # Load the TSV file into a pandas DataFrame
-df = pd.read_csv("../data/neumo_dataset_balanced_0.tsv", delimiter="\t")
+df = pd.read_csv("../../data/raw/neumo_dataset_balanced_0.tsv", delimiter="\t")
 
 # Subset the DataFrame for rows where the label column contains ['normal']
 # Subset the DataFrame for rows where the label column contains only ['pneumonia']

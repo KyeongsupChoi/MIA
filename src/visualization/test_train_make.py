@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 # Read the CSV file
-df = pd.read_csv("../data/sliced.csv")
+df = pd.read_csv("../../data/raw/sliced.csv")
 
 # Split the dataset into training and test sets based on the 'Labels' column
 train_df, test_df = train_test_split(df, test_size=0.2, stratify=df['Labels'], random_state=42)

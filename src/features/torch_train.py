@@ -35,9 +35,9 @@ transform = transforms.Compose([
 ])
 
 # Paths to your CSV files and image directory
-train_csv_file = "../data/train_dataset.csv"
-test_csv_file = "../data/test_dataset.csv"
-img_dir = "../data/img"
+train_csv_file = "../../data/raw/train_dataset.csv"
+test_csv_file = "../../data/raw/test_dataset.csv"
+img_dir = "../../data/raw/img"
 
 # Create custom datasets
 train_data = CustomImageDataset(csv_file=train_csv_file, img_dir=img_dir, transform=transform)

@@ -1,7 +1,7 @@
 
 import pandas as pd
 
-reduced = pd.read_csv('../Analysis_Visualization/mia.csv')
+reduced = pd.read_csv('../visualization/mia.csv')
 
 print(reduced.to_string())
 
@@ -17,7 +17,7 @@ from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.optimizers import Adam
 
 # Data Preprocessing
-image_dir = '../data/img'  # Directory where images are stored
+image_dir = '../../data/raw/img'  # Directory where images are stored
 
 # Load image paths and labels from the CSV file
 image_paths = reduced['ImageID'].apply(lambda x: os.path.join(image_dir, x))
