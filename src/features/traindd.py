@@ -85,3 +85,5 @@ history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=
 # Evaluate the model
 loss, accuracy = model.evaluate(X_val, y_val)
 print(f'Validation Loss: {loss}, Validation Accuracy: {accuracy}')
+
+# model.save('Carmine400i70a.h5')
