@@ -66,6 +66,7 @@ Project Organization
 - Moreover, extensive information is provided, including the patient’s demographic information, type of projection and acquisition parameters for the imaging study, among others.
 - These iterations of the database include 21342 CR, 34829 DX and 7918 CT studies.
 - Link: https://github.com/BIMCV-CSUSP/BIMCV-COVID-19
+
 ## Insights and Conclusions
 
 - AI, CAD, DL systems alone seem to have a higher Sensitivity but lower Specificity than Raidologists
