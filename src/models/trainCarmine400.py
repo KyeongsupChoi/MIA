@@ -8,7 +8,7 @@ print(reduced.to_string())
 import os
 import numpy as np
 from sklearn.model_selection import train_test_split
-import tensorflow
+import tensorflow as tf
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
@@ -77,15 +77,16 @@ num_classes = 2  # Number of classes (normal and abnormal)
 model = create_resnet_model(input_shape, num_classes)
 
 # Compile the model
-model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer=Adam(), loss='categorical_crossentropy', metrics=['accuracy', tf.keras.metrics.AUC(name='auc')])
 
 # Train the model
 history = model.fit(X_train, y_train, batch_size=32, epochs=10, validation_data=(X_val, y_val))
 
 # Evaluate the model
-loss, accuracy = model.evaluate(X_val, y_val)
-print(f'Validation Loss: {loss}, Validation Accuracy: {accuracy}')
+loss, accuracy, auc = model.evaluate(X_val, y_val)
+
+print(f'Validation Loss: {loss}, Validation Accuracy: {accuracy}, Validation AUC: {auc}')
 
 # model.save('Carmine400i70a.h5')
 
-# 72% accuracy and 0.59 validation loss
+# 72% accuracy and 0.59 validation loss Validation AUC: 0.8179687261581421
