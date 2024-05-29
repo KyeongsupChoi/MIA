@@ -87,6 +87,8 @@ loss, accuracy, auc = model.evaluate(X_val, y_val)
 
 print(f'Validation Loss: {loss}, Validation Accuracy: {accuracy}, Validation AUC: {auc}')
 
-# model.save('Carmine400i70a.h5')
+#model.save('Carmine400i70aDeploy.h5')
 
 # 72% accuracy and 0.59 validation loss Validation AUC: 0.8179687261581421
+
+# Setting input shape to 448x448 dropped accuracy to 48%
