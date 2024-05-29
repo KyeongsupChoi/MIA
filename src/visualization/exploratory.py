@@ -9,7 +9,6 @@ cols = ["ImageID", "StudyDate_DICOM", "StudyID", "PatientID",
 # Read the data from the TSV file into a DataFrame
 reporty = pd.read_csv('../../data/raw/neumo_dataset_balanced_0.tsv', usecols=cols, sep='\t')
 
-print(reporty[reporty["Labels"].str.contains('consolidation')].to_string())
 
 # Explode the 'Labels' column to separate multi-label entries
 df_exploded = reporty.explode('Labels')
