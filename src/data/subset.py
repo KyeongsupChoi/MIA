@@ -15,12 +15,12 @@ df = df[df['Pediatric'].apply(lambda x: 'No' in x)]
 subset_df = df[df['Labels'].apply(lambda x: 'normal' in x)]
 
 # Take the first 200 rows from the subset
-final_subset = subset_df.head(200)
+final_subset = subset_df.head(400)
 
 
 subset_df = df[df['Labels'].apply(lambda x: len(x) == 13 and 'pneumonia' in x)]
 
-subset_df = subset_df.head(200)
+subset_df = subset_df.head(400)
 
 # Take the first 200 rows from the subset using .loc, if available
 
@@ -29,7 +29,7 @@ final = pd.concat([final_subset, subset_df], axis=0)
 print(final.to_string())
 print(len(final))
 
-final.to_csv('exporty.csv')
+final.to_csv('eightie.csv')
 """
 import shutil
 import os

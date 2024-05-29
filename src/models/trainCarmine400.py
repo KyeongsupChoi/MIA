@@ -1,7 +1,9 @@
 
 import pandas as pd
 
-reduced = pd.read_csv('../../data/interim/mia.csv')
+#reduced = pd.read_csv('../../data/interim/mia.csv')
+
+reduced = pd.read_csv('../../data/interim/eightie.csv')
 
 print(reduced.to_string())
 
@@ -92,3 +94,5 @@ print(f'Validation Loss: {loss}, Validation Accuracy: {accuracy}, Validation AUC
 # 72% accuracy and 0.59 validation loss Validation AUC: 0.8179687261581421
 
 # Setting input shape to 448x448 dropped accuracy to 48%
+
+# Doubling dataset to 800, dropped accuracy
