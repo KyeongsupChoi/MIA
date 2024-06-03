@@ -1,5 +1,13 @@
 import pandas as pd
 
+allevery = pd.read_csv('../../data/raw/neumo_dataset.tsv', sep='\t')
+
+print(allevery.head().to_string())
+
+print(allevery['StudyDate_DICOM'].value_counts())
+
+print(allevery['StudyID'].value_counts())
+
 # Define columns of interest
 cols = ["ImageID", "PatientID", "PatientBirth",
         "Projection", "Pediatric", "Modality_DICOM",
