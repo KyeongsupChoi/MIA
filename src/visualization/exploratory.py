@@ -4,9 +4,24 @@ allevery = pd.read_csv('../../data/raw/neumo_dataset.tsv', sep='\t')
 
 print(allevery.head().to_string())
 
+print(allevery.describe().to_string())
+
+print(allevery.shape)
+
+print(allevery.columns)
+
+print(allevery.info())
+
 print(allevery['StudyDate_DICOM'].value_counts())
 
+# The date the study was conducted and Chest Xray was recorded, max is 20150120: 59
+
 print(allevery['StudyID'].value_counts())
+
+# ID for each study, 126022968388682456059208259745221627283: 12 is max. Incongruous with study date. Perhaps multiple studies done on same date
+
+for xid in allevery.columns:
+        print(allevery[xid].value_counts())
 
 # Define columns of interest
 cols = ["ImageID", "PatientID", "PatientBirth",
@@ -15,14 +30,6 @@ cols = ["ImageID", "PatientID", "PatientBirth",
 
 # Read the data from the TSV file into a DataFrame
 reporty = pd.read_csv('../../data/raw/neumo_dataset.tsv', usecols=cols, sep='\t')
-
-print(reporty.describe())
-
-print(reporty.shape)
-
-print(reporty.columns)
-
-print(reporty.info())
 
 print(reporty.head().to_string())
 
