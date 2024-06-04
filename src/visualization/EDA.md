@@ -60,3 +60,18 @@ Data columns (total 28 columns):
  27  group                            26020 non-null  object 
 dtypes: float64(9), int64(5), object(14)
 memory usage: 5.6+ MB
+
+- E:\MIA\venv\Scripts\python.exe E:/MIA/src/visualization/image_count.py
+There are 23521 images in the folder.
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 26020 entries, 0 to 26019
+
+- There appears to be a discrepancy between the number of images in the dataset and the number of labels in the dataset
+
+- (StudyDate_DICOM) The date the study was conducted and Chest Xray was recorded, max is 20150120: 59
+
+- (StudyID) ID for each study, "126022968388682456059208259745221627283": 12 is the max. Incongruous with study date. Perhaps multiple studies done on same date
+
+- (PatientID) ID for each patient "168550076836128609595241571786282061120:: 22 is the max. Which means there are multiple x-rays for each patient
+
+- (PatientBirth) Date of birth for each patient. 1943.0: 548 is max. Might use this and study date to feature engineer patient age.

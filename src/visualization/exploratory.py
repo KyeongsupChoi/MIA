@@ -61,4 +61,4 @@ Labels
 ['alveolar pattern', ' pneumonia']     156
 ['scoliosis']                          137
 ['infiltrates', 'unchanged']           134
-['alveolar pattern',
+['alveolar pattern',"""
