@@ -31,19 +31,25 @@ Project Organization
     │   ├── __init__.py             <- Makes src a Python module
     │   │
     │   ├── data                    <- Scripts to download or generate data
-    │   │   ├── make_dataset.py    <- Scripts to turn raw data into features for modeling
-    │   │   └── subset.py <- Scripts to turn raw data into features for modeling
+    │   │   └── make_dataset.py     <- Scripts to turn raw data into features for modeling
     │   │
     │   ├── features                <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
+    │   │   ├── build_features.py   <- Script to create 800 image dataset of diagnosing pneumonia
+    │   │   └── create_sliced.py    <- Script to create sliced csv dataset
     │   │
     │   ├── models                  <- Scripts to train models and then use trained models to make
-    │   │   │                               predictions
-    │   │   ├── predict_model.py    <- Scripts to turn raw data into features for modeling
-    │   │   └── train_model.py  <- Scripts to turn raw data into features for modeling
+    │   │   │                          predictions
+    │   │   ├── predict_model.py    <- Script to use Carmine400 model to predict pneumonia on an image
+    │   │   └── train_model.py      <- Script to train Carmine400 model on 400 images to detect pneumonia on chest xrays
+    │   │
+    │   ├── tests                   <- Scripts to run automated test
+    │   │   ├── carmine_test.py     <- Script to test carmine models
+    │   │   └── tangerine.py        <- Script to test tangerine models
     │   │
     │   └── visualization           <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │       ├── exploratory.py      <- Script to do exploratory data analysis
+    │       ├── image_count.py      <- Script to count number of images in "raw/img"
+    │       └── visualize.py        <- Script to visualize chest xray with openCV
     │
     ├── LICENSE
     ├── Makefile                    <- Makefile with commands like `make data` or `make train`
