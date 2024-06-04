@@ -75,3 +75,43 @@ RangeIndex: 26020 entries, 0 to 26019
 - (PatientID) ID for each patient "168550076836128609595241571786282061120:: 22 is the max. Which means there are multiple x-rays for each patient
 
 - (PatientBirth) Date of birth for each patient. 1943.0: 548 is max. Might use this and study date to feature engineer patient age.
+
+- (PatientSex_DICOM) F:13100, M:12918, O:2. Perfectly fine. Can be used as a feature very easily
+
+- (ViewPosition_DICOM) - EXTREMELY IMPORTANT. Xray side view, front view etc.
+POSTEROANTERIOR    4359
+PA                 3387
+LATERAL            2438
+LL                 1355
+AP                   49
+ANTEROPOSTERIOR      25
+LLD                   1
+
+- (Projection) - ALSO EXTREMELY IMPORTANT. Position when xray was taken
+PA               13825
+L                 8491
+AP_horizontal     2772
+AP                 901
+COSTAL              31
+
+- (MethodProjection) - How the Xray was interpreted
+Manual review of DICOM fields    24777
+resnet-50.t7                      1243
+
+- (Pediatric) - Whether the patient was not an adult. should just drop PED values
+No     25944
+PED       76
+
+- (Modality_DICOM) - Computed Radiography"CR" vs Digital X Ray"DR" possible feature
+CR    21228
+DX     4792
+
+- (Manufacturer_DICOM) - Manufacturer of equipment to take xray. Possible feature
+PhilipsMedicalSystems        19198
+ImagingDynamicsCompanyLtd     6822
+
+- (PhotometricInterpretation_DICOM) - Every image is black and white. Should just drop the whole column
+MONOCHROME2    26020
+
+- (PixelRepresentation_DICOM) - Should look up what this is and just drop the whole column
+0    26020
