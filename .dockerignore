@@ -1,0 +1,10 @@
+.git
+.dvc/cache
+__pycache__
+*.pyc
+data/raw
+models/*.keras
+models/*.h5
+notebooks
+references
+.env

@@ -1,0 +1,41 @@
+stages:
+  prepare:
+    cmd: python src/data/make_dataset.py data/raw data/processed
+    deps:
+      - src/data/make_dataset.py
+      - data/raw
+    outs:
+      - data/processed/balanced.csv
+      - data/processed/train.csv
+      - data/processed/val.csv
+      - data/processed/test.csv
+
+  train:
+    cmd: >-
+      python src/models/train_Carmine400.py
+      --data-csv data/processed/balanced.csv
+      --image-dir data/raw/img
+      --output-dir models
+    deps:
+      - src/models/train_Carmine400.py
+      - src/features/build_features.py
+      - data/processed/balanced.csv
+      - data/raw/img
+    outs:
+      - models/final_model.keras
+    metrics:
+      - models/test_metrics.json:
+          cache: false
+    plots:
+      - models/training_config.json:
+          cache: false
+
+  gradcam:
+    cmd: >-
+      python src/visualization/gradcam.py
+      ${item}
+      --model-path models/final_model.keras
+      --output reports/figures/${item}_gradcam.png
+    deps:
+      - src/visualization/gradcam.py
+      - models/final_model.keras
