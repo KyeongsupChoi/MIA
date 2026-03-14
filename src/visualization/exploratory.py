@@ -1,64 +1,64 @@
+"""Exploratory data analysis for the chest X-ray dataset."""
+
+import argparse
+import logging
+from pathlib import Path
+
 import pandas as pd
 
-# Read the entire dataset from a TSV file into a DataFrame named 'allevery'
-allevery = pd.read_csv('../../data/raw/neumo_dataset.tsv', sep='\t')
+from src.config import LOG_FORMAT
 
-# Print the first few rows of the dataset to get an initial look at the data
-print(allevery.head().to_string())
+logger = logging.getLogger(__name__)
 
-# Print the summary statistics of the dataset to understand its numerical properties
-print(allevery.describe().to_string())
+PROJECT_DIR = Path(__file__).resolve().parents[2]
 
-# Print the shape of the dataset (number of rows and columns)
-print(allevery.shape)
 
-# Print the column names of the dataset
-print(allevery.columns)
+def run_eda(tsv_path: str | Path) -> pd.DataFrame:
+    """Load the raw dataset and print summary statistics.
 
-# Print detailed information about the dataset (data types, non-null counts, etc.)
-print(allevery.info())
+    Returns the loaded DataFrame for further analysis.
+    """
+    tsv_path = Path(tsv_path)
+    if not tsv_path.exists():
+        raise FileNotFoundError(f'dataset not found: {tsv_path}')
 
-# Loop through each column in the dataset and print the frequency of each unique value
-for xid in allevery.columns:
-    print(allevery[xid].value_counts())
+    df = pd.read_csv(tsv_path, sep='\t')
 
-# Define a list of columns of interest
-cols = ["ImageID", "PatientID", "PatientBirth",
-        "Projection", "Pediatric", "Modality_DICOM",
-        "Manufacturer_DICOM", "Labels", "group"]
+    print(f'Shape: {df.shape}')
+    print(f'\nColumns: {list(df.columns)}')
+    print(f'\nHead:\n{df.head().to_string()}')
+    print(f'\nDescribe:\n{df.describe().to_string()}')
+    print(f'\nInfo:')
+    df.info()
 
-# Read only the specified columns from the TSV file into a DataFrame named 'reporty'
-reporty = pd.read_csv('../../data/raw/neumo_dataset.tsv', usecols=cols, sep='\t')
+    print('\n--- Value counts per column ---')
+    for col in df.columns:
+        vc = df[col].value_counts()
+        print(f'\n{col} ({df[col].nunique()} unique):')
+        print(vc.head(10).to_string())
 
-# Separate multiple labels in the 'Labels' column into individual rows
-df_exploded = reporty.explode('Labels')
+    # Label distribution
+    cols = ['ImageID', 'PatientID', 'PatientBirth', 'Projection',
+            'Pediatric', 'Modality_DICOM', 'Manufacturer_DICOM',
+            'Labels', 'group']
+    available = [c for c in cols if c in df.columns]
+    subset = df[available]
 
-# Count the occurrences of each unique label
-value_counts = df_exploded['Labels'].value_counts()
+    if 'Labels' in subset.columns:
+        exploded = subset.explode('Labels')
+        label_counts = exploded['Labels'].value_counts()
+        print(f'\n--- Top 10 labels ---\n{label_counts.head(10).to_string()}')
 
-# Print the top 10 most frequent labels
-print(value_counts[0:10])
+    return df
 
-# Filter the DataFrame to include only rows with specific labels
-sliced = reporty[reporty['Labels'].isin(["['normal']", "['consolidation', ' pneumonia']"])]
 
-# Print the filtered DataFrame
-print(sliced)
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
 
-# (Optional) Write the filtered DataFrame to a CSV file
-# Uncomment the following line to save the sliced DataFrame to a CSV file
-#sliced.to_csv("sliced.csv", encoding='utf-8', index=False)
-
-"""
-Example output of label counts:
-Labels
-['normal']                            9004
-['pneumonia']                          783
-['infiltrates']                        739
-['infiltrates', ' pneumonia']          478
-['consolidation', ' pneumonia']        210
-['COPD signs']                         156
-['alveolar pattern', ' pneumonia']     156
-['scoliosis']                          137
-['infiltrates', 'unchanged']           134
-['alveolar pattern',"""
+    parser = argparse.ArgumentParser(description='Run EDA on raw dataset')
+    parser.add_argument(
+        '--input',
+        default=str(PROJECT_DIR / 'data' / 'raw' / 'neumo_dataset.tsv'),
+    )
+    args = parser.parse_args()
+    run_eda(args.input)

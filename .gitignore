@@ -87,3 +87,11 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+# Trained models (large binaries)
+models/*.keras
+models/*.h5
+models/*.pb
+models/*.onnx
+models/test_metrics.json
+models/training_config.json

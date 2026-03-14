@@ -1,4 +1,4 @@
-.PHONY: clean data lint requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint test train predict requirements sync_data_to_s3 sync_data_from_s3
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -41,6 +41,10 @@ predict:
 clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
+
+## Run tests
+test:
+	$(PYTHON_INTERPRETER) -m pytest tests/ -v
 
 ## Lint using flake8
 lint:

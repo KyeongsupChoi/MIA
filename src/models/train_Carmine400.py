@@ -1,8 +1,17 @@
+"""Two-phase transfer-learning trainer for chest X-ray classification.
+
+Phase 1: Train a classification head on top of a frozen ResNet50 backbone.
+Phase 2: Unfreeze the top layers of the backbone and fine-tune end-to-end
+          with a reduced learning rate.
+"""
+
 import argparse
 import json
 import logging
 import os
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import tensorflow as tf
@@ -10,6 +19,7 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_auc_sco
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.applications import ResNet50
 from tensorflow.keras.callbacks import (
+    Callback,
     EarlyStopping,
     ModelCheckpoint,
     ReduceLROnPlateau,
@@ -20,29 +30,26 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.utils import to_categorical
 
-# Resolve project root relative to this file
+from src.config import LABEL_MAPPING, LABEL_NAMES, LOG_FORMAT, NUM_CLASSES
+from src.features.build_features import compute_class_weights, load_images_and_labels
+
+logger = logging.getLogger(__name__)
+
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 
-# Labels
-LABEL_MAPPING = {
-    "['normal']": 0,
-    "['pneumonia']": 1,
-}
-LABEL_NAMES = ['normal', 'pneumonia']
 
-
-def set_seeds(seed=42):
-    """Set seeds for reproducibility across numpy, tf, and python."""
+def set_seeds(seed: int = 42) -> None:
+    """Set all random seeds for reproducibility."""
     np.random.seed(seed)
     tf.random.set_seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
 
 
-def build_augmenter():
-    """Build an ImageDataGenerator with augmentations suited for chest X-rays.
+def build_augmenter() -> ImageDataGenerator:
+    """Build augmentations suited for chest X-rays.
 
-    Medical images benefit from geometric transforms but NOT color jitter
-    (grayscale radiographs have meaningful intensity values).
+    Uses geometric transforms only — no color jitter, because grayscale
+    radiographs have diagnostically meaningful pixel intensities.
     """
     return ImageDataGenerator(
         rotation_range=15,
@@ -54,17 +61,18 @@ def build_augmenter():
     )
 
 
-def create_model(input_shape, num_classes, fine_tune_from=None):
+def create_model(
+    input_shape: tuple,
+    num_classes: int,
+    fine_tune_from: Optional[int] = None,
+) -> Sequential:
     """Create a ResNet50 transfer-learning model.
 
     Args:
-        input_shape: Tuple (H, W, C).
+        input_shape: (H, W, C).
         num_classes: Number of output classes.
-        fine_tune_from: If set, unfreeze all layers from this index onward
-            in the base model. None keeps everything frozen.
-
-    Returns:
-        Compiled Keras Sequential model.
+        fine_tune_from: Layer index in the base model from which to unfreeze.
+            None keeps the entire base frozen.
     """
     base_model = ResNet50(
         include_top=False,
@@ -91,8 +99,8 @@ def create_model(input_shape, num_classes, fine_tune_from=None):
     return model
 
 
-def build_callbacks(checkpoint_path):
-    """Build training callbacks: early stopping, LR reduction, checkpointing."""
+def build_callbacks(checkpoint_path: Path) -> List[Callback]:
+    """Build training callbacks."""
     return [
         EarlyStopping(
             monitor='val_loss',
@@ -117,11 +125,15 @@ def build_callbacks(checkpoint_path):
     ]
 
 
-def evaluate_model(model, X, y_true_onehot, label_names):
-    """Run full evaluation: loss, accuracy, AUC, classification report,
-    and confusion matrix.
+def evaluate_model(
+    model: Sequential,
+    X: np.ndarray,
+    y_true_onehot: np.ndarray,
+    label_names: List[str],
+) -> Dict[str, Any]:
+    """Evaluate a model and return structured metrics.
 
-    Returns a dict of metrics.
+    Prints a human-readable report and returns a JSON-serializable dict.
     """
     loss, accuracy, auc = model.evaluate(X, y_true_onehot, verbose=0)
 
@@ -132,13 +144,13 @@ def evaluate_model(model, X, y_true_onehot, label_names):
     roc_auc = roc_auc_score(y_true, y_pred_proba[:, 1])
 
     report = classification_report(
-        y_true, y_pred, target_names=label_names, output_dict=True
+        y_true, y_pred, target_names=label_names, output_dict=True,
     )
     cm = confusion_matrix(y_true, y_pred)
 
-    print(f'\nLoss: {loss:.4f}  Accuracy: {accuracy:.4f}  AUC: {auc:.4f}  '
-          f'ROC-AUC: {roc_auc:.4f}')
-    print(f'\nClassification Report:')
+    print(f'\nLoss: {loss:.4f}  Accuracy: {accuracy:.4f}  '
+          f'AUC: {auc:.4f}  ROC-AUC: {roc_auc:.4f}')
+    print('\nClassification Report:')
     print(classification_report(y_true, y_pred, target_names=label_names))
     print(f'Confusion Matrix:\n{cm}')
 
@@ -152,173 +164,154 @@ def evaluate_model(model, X, y_true_onehot, label_names):
     }
 
 
-def load_data(csv_path, image_dir, target_size=(224, 224)):
-    """Load images and labels from a CSV + image directory."""
-    import pandas as pd
-    from tensorflow.keras.preprocessing.image import img_to_array, load_img
-
-    df = pd.read_csv(csv_path)
-    image_dir = Path(image_dir)
-
-    X, y = [], []
-    for _, row in df.iterrows():
-        img_path = image_dir / row['ImageID']
-        if not img_path.exists():
-            continue
-
-        label_str = row['Labels']
-        if label_str not in LABEL_MAPPING:
-            continue
-
-        img = load_img(str(img_path), target_size=target_size)
-        img_array = img_to_array(img) / 255.0
-        X.append(img_array)
-        y.append(LABEL_MAPPING[label_str])
-
-    return np.array(X), np.array(y)
+def save_training_config(args: argparse.Namespace, output_dir: Path) -> None:
+    """Persist the full training configuration for reproducibility."""
+    config = {
+        'timestamp': datetime.now(timezone.utc).isoformat(),
+        'args': vars(args),
+        'label_mapping': LABEL_MAPPING,
+        'tensorflow_version': tf.__version__,
+    }
+    config_path = output_dir / 'training_config.json'
+    with open(config_path, 'w') as f:
+        json.dump(config, f, indent=2)
+    logger.info('training config saved to %s', config_path)
 
 
-def train(args):
-    """Two-phase training: frozen base, then fine-tuned top layers."""
-    logger = logging.getLogger(__name__)
+def train(args: argparse.Namespace) -> None:
+    """Run the full two-phase training pipeline."""
     set_seeds(args.seed)
 
     input_shape = (args.image_size, args.image_size, 3)
-    num_classes = len(LABEL_MAPPING)
+    target_size = (args.image_size, args.image_size)
 
-    # --- Load data ---
-    csv_path = Path(args.data_csv)
-    image_dir = Path(args.image_dir)
-    X, y = load_data(csv_path, image_dir, target_size=input_shape[:2])
-
-    logger.info(f'loaded {len(X)} images')
-
-    # Compute class weights before one-hot encoding
-    classes, counts = np.unique(y, return_counts=True)
-    class_weight = {
-        int(cls): len(y) / (len(classes) * count)
-        for cls, count in zip(classes, counts)
-    }
-    logger.info(f'class weights: {class_weight}')
-
-    y_onehot = to_categorical(y, num_classes=num_classes)
-
-    # --- Three-way split: train / val / test ---
-    X_train_val, X_test, y_train_val, y_test = train_test_split(
-        X, y_onehot, test_size=0.15, random_state=args.seed, stratify=y
+    # --- Load data via shared feature module ---
+    X, y, skipped = load_images_and_labels(
+        args.data_csv, args.image_dir, target_size=target_size,
     )
-    # Stratify on argmax of one-hot for the second split
-    y_tv_labels = np.argmax(y_train_val, axis=1)
+    logger.info('loaded %d images (%d skipped)', len(X), len(skipped))
+
+    class_weight = compute_class_weights(y)
+    logger.info('class weights: %s', class_weight)
+
+    y_onehot = to_categorical(y, num_classes=NUM_CLASSES)
+
+    # --- Three-way stratified split ---
+    X_tv, X_test, y_tv, y_test = train_test_split(
+        X, y_onehot,
+        test_size=args.test_size,
+        random_state=args.seed,
+        stratify=y,
+    )
+    y_tv_labels = np.argmax(y_tv, axis=1)
+    val_fraction = args.val_size / (1 - args.test_size)
     X_train, X_val, y_train, y_val = train_test_split(
-        X_train_val, y_train_val,
-        test_size=0.176,  # ~15% of total
+        X_tv, y_tv,
+        test_size=val_fraction,
         random_state=args.seed,
         stratify=y_tv_labels,
     )
     logger.info(
-        f'splits — train: {len(X_train)}, val: {len(X_val)}, '
-        f'test: {len(X_test)}'
+        'splits — train: %d, val: %d, test: %d',
+        len(X_train), len(X_val), len(X_test),
     )
+
+    # --- Output setup ---
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    save_training_config(args, output_dir)
 
     # --- Data augmentation ---
     augmenter = build_augmenter()
+    steps_per_epoch = max(1, len(X_train) // args.batch_size)
     train_gen = augmenter.flow(X_train, y_train, batch_size=args.batch_size)
 
-    # --- Output directory ---
-    output_dir = Path(args.output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    # === Phase 1: Train with frozen base ===
+    # === Phase 1: Frozen backbone ===
     logger.info('Phase 1: training with frozen ResNet50 base')
-    model = create_model(input_shape, num_classes, fine_tune_from=None)
+    model = create_model(input_shape, NUM_CLASSES, fine_tune_from=None)
     model.compile(
         optimizer=Adam(learning_rate=1e-3),
         loss='categorical_crossentropy',
         metrics=['accuracy', tf.keras.metrics.AUC(name='auc')],
     )
 
-    checkpoint_path = output_dir / 'best_model_phase1.keras'
-    history1 = model.fit(
+    cp_phase1 = output_dir / 'best_model_phase1.keras'
+    model.fit(
         train_gen,
-        steps_per_epoch=len(X_train) // args.batch_size,
+        steps_per_epoch=steps_per_epoch,
         epochs=args.epochs_phase1,
         validation_data=(X_val, y_val),
         class_weight=class_weight,
-        callbacks=build_callbacks(checkpoint_path),
+        callbacks=build_callbacks(cp_phase1),
         verbose=1,
     )
 
-    # === Phase 2: Fine-tune top layers of ResNet50 ===
+    # === Phase 2: Unfreeze top ResNet layers on the same model ===
     logger.info('Phase 2: fine-tuning top ResNet50 layers')
-    model = create_model(input_shape, num_classes, fine_tune_from=140)
-    # Load phase 1 weights
-    model.load_weights(str(checkpoint_path))
+    base_model = model.layers[0]
+    for layer in base_model.layers[140:]:
+        layer.trainable = True
+
     model.compile(
-        optimizer=Adam(learning_rate=1e-5),  # Lower LR for fine-tuning
+        optimizer=Adam(learning_rate=1e-5),
         loss='categorical_crossentropy',
         metrics=['accuracy', tf.keras.metrics.AUC(name='auc')],
     )
 
-    checkpoint_path_ft = output_dir / 'best_model_finetuned.keras'
-    history2 = model.fit(
+    cp_phase2 = output_dir / 'best_model_finetuned.keras'
+    model.fit(
         train_gen,
-        steps_per_epoch=len(X_train) // args.batch_size,
+        steps_per_epoch=steps_per_epoch,
         epochs=args.epochs_phase2,
         validation_data=(X_val, y_val),
         class_weight=class_weight,
-        callbacks=build_callbacks(checkpoint_path_ft),
+        callbacks=build_callbacks(cp_phase2),
         verbose=1,
     )
 
-    # === Evaluation on held-out test set ===
-    logger.info('Evaluating on held-out test set')
+    # === Evaluate on held-out test set ===
+    logger.info('evaluating on held-out test set')
     print('\n' + '=' * 50)
     print('TEST SET EVALUATION')
     print('=' * 50)
     metrics = evaluate_model(model, X_test, y_test, LABEL_NAMES)
 
-    # Save metrics
     metrics_path = output_dir / 'test_metrics.json'
     with open(metrics_path, 'w') as f:
         json.dump(metrics, f, indent=2)
-    logger.info(f'metrics saved to {metrics_path}')
+    logger.info('metrics saved to %s', metrics_path)
 
-    # Save final model
     final_path = output_dir / 'final_model.keras'
     model.save(str(final_path))
-    logger.info(f'final model saved to {final_path}')
+    logger.info('final model saved to %s', final_path)
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description='Train chest X-ray classifier (normal vs pneumonia)'
+        description='Train chest X-ray classifier (normal vs pneumonia)',
     )
     parser.add_argument(
         '--data-csv',
         default=str(PROJECT_DIR / 'data' / 'processed' / 'balanced.csv'),
-        help='Path to CSV with ImageID and Labels columns',
     )
     parser.add_argument(
         '--image-dir',
         default=str(PROJECT_DIR / 'data' / 'raw' / 'img'),
-        help='Directory containing the X-ray images',
     )
     parser.add_argument(
         '--output-dir',
         default=str(PROJECT_DIR / 'models'),
-        help='Directory to save trained models and metrics',
     )
     parser.add_argument('--image-size', type=int, default=224)
     parser.add_argument('--batch-size', type=int, default=32)
     parser.add_argument('--epochs-phase1', type=int, default=20)
     parser.add_argument('--epochs-phase2', type=int, default=15)
+    parser.add_argument('--test-size', type=float, default=0.15)
+    parser.add_argument('--val-size', type=float, default=0.15)
     parser.add_argument('--seed', type=int, default=42)
     return parser.parse_args()
 
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
-    args = parse_args()
-    train(args)
+    logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
+    train(parse_args())

@@ -1,77 +1,110 @@
 # -*- coding: utf-8 -*-
-import click
+"""Process raw TSV data into balanced, split CSVs ready for modeling."""
+
 import logging
 from pathlib import Path
+from typing import Tuple
 
+import click
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from dotenv import find_dotenv, load_dotenv
+from sklearn.model_selection import train_test_split
+
+from src.config import LOG_FORMAT, REQUIRED_COLUMNS
+
+logger = logging.getLogger(__name__)
 
 
-PROJECT_DIR = Path(__file__).resolve().parents[2]
+def load_raw_data(input_filepath: str | Path) -> pd.DataFrame:
+    """Load a raw TSV or CSV dataset.
 
-
-def load_raw_data(input_filepath):
-    """Load the raw TSV dataset and return a DataFrame."""
-    logger = logging.getLogger(__name__)
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        ValueError: If required columns are missing.
+    """
     filepath = Path(input_filepath)
+    if not filepath.exists():
+        raise FileNotFoundError(f'input file not found: {filepath}')
 
-    if filepath.suffix == '.tsv':
-        df = pd.read_csv(filepath, delimiter='\t')
-    else:
-        df = pd.read_csv(filepath)
+    sep = '\t' if filepath.suffix == '.tsv' else ','
+    df = pd.read_csv(filepath, delimiter=sep)
 
-    logger.info(f'loaded {len(df)} records from {filepath.name}')
+    missing = REQUIRED_COLUMNS - set(df.columns)
+    if missing:
+        raise ValueError(
+            f'dataset is missing required columns: {missing}. '
+            f'Found: {list(df.columns)}'
+        )
+
+    logger.info('loaded %d records from %s', len(df), filepath.name)
     return df
 
 
-def filter_dataset(df, n_per_class=400):
+def filter_dataset(df: pd.DataFrame, n_per_class: int = 400) -> pd.DataFrame:
     """Filter to PA-projection, non-pediatric, normal vs pneumonia only.
 
-    Returns a balanced dataset with n_per_class samples per label.
+    Uses exact string matching to avoid false positives (e.g. "abnormal"
+    matching a contains('normal') check).
+
+    Raises:
+        ValueError: If fewer samples than requested are available for a class.
     """
-    logger = logging.getLogger(__name__)
+    df = df[df['Projection'].str.contains('PA', na=False)].copy()
+    logger.info('%d records after PA projection filter', len(df))
 
-    # Keep only PA projection (most diagnostically reliable)
-    df = df[df['Projection'].str.contains('PA', na=False)]
-    logger.info(f'{len(df)} records after PA projection filter')
+    df = df[df['Pediatric'].str.contains('No', na=False)].copy()
+    logger.info('%d records after pediatric filter', len(df))
 
-    # Exclude pediatric cases
-    df = df[df['Pediatric'].str.contains('No', na=False)]
-    logger.info(f'{len(df)} records after pediatric filter')
+    normal = df[df['Labels'] == "['normal']"].head(n_per_class)
+    pneumonia = df[df['Labels'] == "['pneumonia']"].head(n_per_class)
 
-    # Split into normal and pneumonia subsets
-    normal = df[df['Labels'].str.contains('normal', na=False)].head(n_per_class)
-    pneumonia = df[
-        df['Labels'].apply(
-            lambda x: isinstance(x, str)
-            and 'pneumonia' in x
-            and x.strip() == "['pneumonia']"
+    if len(normal) == 0 or len(pneumonia) == 0:
+        raise ValueError(
+            f'insufficient data after filtering — '
+            f'normal: {len(normal)}, pneumonia: {len(pneumonia)}'
         )
-    ].head(n_per_class)
 
-    logger.info(f'selected {len(normal)} normal, {len(pneumonia)} pneumonia')
+    if len(normal) < n_per_class:
+        logger.warning(
+            'only %d normal samples available (requested %d)',
+            len(normal), n_per_class,
+        )
+    if len(pneumonia) < n_per_class:
+        logger.warning(
+            'only %d pneumonia samples available (requested %d)',
+            len(pneumonia), n_per_class,
+        )
 
     balanced = pd.concat([normal, pneumonia], axis=0).reset_index(drop=True)
+    logger.info('balanced dataset: %d normal, %d pneumonia',
+                len(normal), len(pneumonia))
     return balanced
 
 
-def create_splits(df, test_size=0.15, val_size=0.15, random_state=42):
-    """Create train/val/test splits with stratification.
+def create_splits(
+    df: pd.DataFrame,
+    test_size: float = 0.15,
+    val_size: float = 0.15,
+    random_state: int = 42,
+) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Create stratified train/val/test splits.
 
-    With defaults: ~70% train, ~15% val, ~15% test.
+    The val_size is relative to the total dataset, not to the train set.
     """
-    # First split off the test set
+    if not 0 < test_size < 1 or not 0 < val_size < 1:
+        raise ValueError('split sizes must be between 0 and 1')
+    if test_size + val_size >= 1:
+        raise ValueError('test_size + val_size must be less than 1')
+
     train_val, test = train_test_split(
         df, test_size=test_size,
-        stratify=df['Labels'], random_state=random_state
+        stratify=df['Labels'], random_state=random_state,
     )
 
-    # Then split train_val into train and val
     relative_val_size = val_size / (1 - test_size)
     train, val = train_test_split(
         train_val, test_size=relative_val_size,
-        stratify=train_val['Labels'], random_state=random_state
+        stratify=train_val['Labels'], random_state=random_state,
     )
 
     return train, val, test
@@ -87,22 +120,17 @@ def create_splits(df, test_size=0.15, val_size=0.15, random_state=42):
 def main(input_filepath, output_filepath, n_per_class, test_size, val_size,
          seed):
     """Process raw data into train/val/test splits for modeling."""
-    logger = logging.getLogger(__name__)
-
     output_dir = Path(output_filepath)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Load and filter
     df = load_raw_data(input_filepath)
     balanced = filter_dataset(df, n_per_class=n_per_class)
 
-    # Save the full balanced dataset
     balanced.to_csv(output_dir / 'balanced.csv', index=False)
-    logger.info(f'saved balanced dataset: {len(balanced)} records')
+    logger.info('saved balanced dataset: %d records', len(balanced))
 
-    # Create and save splits
     train, val, test = create_splits(
-        balanced, test_size=test_size, val_size=val_size, random_state=seed
+        balanced, test_size=test_size, val_size=val_size, random_state=seed,
     )
 
     train.to_csv(output_dir / 'train.csv', index=False)
@@ -110,14 +138,12 @@ def main(input_filepath, output_filepath, n_per_class, test_size, val_size,
     test.to_csv(output_dir / 'test.csv', index=False)
 
     logger.info(
-        f'splits — train: {len(train)}, val: {len(val)}, test: {len(test)}'
+        'splits — train: %d, val: %d, test: %d',
+        len(train), len(val), len(test),
     )
 
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
-
+    logging.basicConfig(level=logging.INFO, format=LOG_FORMAT)
     load_dotenv(find_dotenv())
-
     main()

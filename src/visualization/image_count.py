@@ -1,25 +1,35 @@
+"""Count image files in a directory tree."""
+
+import argparse
 import os
+from pathlib import Path
 
-def count_images(folder_path):
-    # Define the image file extensions to look for
-    image_extensions = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
+IMAGE_EXTENSIONS = ('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')
 
-    # Initialize a counter for the images
-    image_count = 0
 
-    # Walk through the folder and its subfolders
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            if file.lower().endswith(image_extensions):
-                image_count += 1
+def count_images(folder_path: str | Path) -> int:
+    """Recursively count image files by extension.
 
-    return image_count
+    Raises:
+        FileNotFoundError: If folder_path does not exist.
+    """
+    folder_path = Path(folder_path)
+    if not folder_path.is_dir():
+        raise FileNotFoundError(f'directory not found: {folder_path}')
 
-# Specify the path to your folder
-folder_path = '../../data/raw/img'
+    count = 0
+    for root, _, files in os.walk(folder_path):
+        for f in files:
+            if f.lower().endswith(IMAGE_EXTENSIONS):
+                count += 1
+    return count
 
-# Get the count of images
-num_images = count_images(folder_path)
 
-# Print the result
-print(f'There are {num_images} images in the folder.')
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Count images in a folder')
+    parser.add_argument(
+        'folder', type=str, help='Path to folder containing images',
+    )
+    args = parser.parse_args()
+    n = count_images(args.folder)
+    print(f'There are {n} images in {args.folder}.')

@@ -37,4 +37,5 @@ Sphinx
 coverage
 awscli
 flake8
+pytest>=7.0
 python-dotenv>=0.5.1
