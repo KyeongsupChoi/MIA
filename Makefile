@@ -29,6 +29,14 @@ requirements: test_environment
 data: requirements
 	$(PYTHON_INTERPRETER) src/data/make_dataset.py data/raw data/processed
 
+## Train Model
+train: data
+	$(PYTHON_INTERPRETER) src/models/train_Carmine400.py --data-csv data/processed/balanced.csv --image-dir data/raw/img --output-dir models
+
+## Run Prediction
+predict:
+	$(PYTHON_INTERPRETER) src/models/predict_model.py $(IMAGE) --model-path models/final_model.keras
+
 ## Delete all compiled Python files
 clean:
 	find . -type f -name "*.py[co]" -delete

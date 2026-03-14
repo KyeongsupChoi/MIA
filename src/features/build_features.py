@@ -1,52 +1,71 @@
+import logging
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
-import sys
-import numpy
-numpy.set_printoptions(threshold=sys.maxsize)
-
-# Load the TSV file into a pandas DataFrame
-df = pd.read_csv("../../data/raw/neumo_dataset_balanced_0.tsv", delimiter="\t")
-
-# Subset the DataFrame for rows where the label column contains ['normal']
-# Subset the DataFrame for rows where the label column contains only ['pneumonia']
-
-df = df[df['Projection'].apply(lambda x: 'PA' in x)]
-
-df = df[df['Pediatric'].apply(lambda x: 'No' in x)]
-subset_df = df[df['Labels'].apply(lambda x: 'normal' in x)]
-
-# Take the first 200 rows from the subset
-final_subset = subset_df.head(400)
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 
-subset_df = df[df['Labels'].apply(lambda x: len(x) == 13 and 'pneumonia' in x)]
+PROJECT_DIR = Path(__file__).resolve().parents[2]
 
-subset_df = subset_df.head(400)
+LABEL_MAPPING = {
+    "['normal']": 0,
+    "['pneumonia']": 1,
+}
 
-# Take the first 200 rows from the subset using .loc, if available
 
-final = pd.concat([final_subset, subset_df], axis=0)
+def load_images_and_labels(csv_path, image_dir, target_size=(224, 224)):
+    """Load images from disk and pair with encoded labels.
 
-print(final.to_string())
-print(len(final))
+    Args:
+        csv_path: Path to CSV with ImageID and Labels columns.
+        image_dir: Directory containing the image files.
+        target_size: Resize dimensions (height, width).
 
-final.to_csv('eightie.csv')
-"""
-import shutil
-import os
+    Returns:
+        X: numpy array of shape (N, H, W, 3), normalized to [0, 1].
+        y: numpy array of integer labels, shape (N,).
+        skipped: list of image paths that could not be loaded.
+    """
+    logger = logging.getLogger(__name__)
+    df = pd.read_csv(csv_path)
+    image_dir = Path(image_dir)
 
-# 원래 폴더와 대상 폴더 경로 정의
-source_folder = "../data/img/"
-target_folder = "../data/exporty"
+    X, y, skipped = [], [], []
 
-# 대상 폴더가 존재하지 않는 경우 생성
-if not os.path.exists(target_folder):
-    os.makedirs(target_folder)
+    for _, row in df.iterrows():
+        img_path = image_dir / row['ImageID']
 
-# 이미지 파일 목록 가져오기
-image_files = final['ImageID'].values
+        if not img_path.exists():
+            skipped.append(str(img_path))
+            continue
 
-# 각 이미지 파일을 대상 폴더로 이동
-for image_file in image_files:
-    source_path = os.path.join(source_folder, image_file)
-    target_path = os.path.join(target_folder, image_file)
-    shutil.copyfile(source_path, target_path)"""
+        label_str = row['Labels']
+        if label_str not in LABEL_MAPPING:
+            skipped.append(str(img_path))
+            continue
+
+        img = load_img(str(img_path), target_size=target_size)
+        img_array = img_to_array(img) / 255.0
+        X.append(img_array)
+        y.append(LABEL_MAPPING[label_str])
+
+    if skipped:
+        logger.warning(f'skipped {len(skipped)} images (missing or bad label)')
+
+    return np.array(X), np.array(y), skipped
+
+
+def compute_class_weights(y):
+    """Compute balanced class weights for imbalanced datasets.
+
+    Returns a dict mapping class index to weight, where
+    under-represented classes get higher weight.
+    """
+    classes, counts = np.unique(y, return_counts=True)
+    total = len(y)
+    weights = {
+        int(cls): total / (len(classes) * count)
+        for cls, count in zip(classes, counts)
+    }
+    return weights
