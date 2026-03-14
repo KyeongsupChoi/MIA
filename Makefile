@@ -1,4 +1,4 @@
-.PHONY: clean data lint test train predict requirements sync_data_to_s3 sync_data_from_s3
+.PHONY: clean data lint test train predict requirements sync_data_to_s3 sync_data_from_s3 gradcam cv docker
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -36,6 +36,18 @@ train: data
 ## Run Prediction
 predict:
 	$(PYTHON_INTERPRETER) src/models/predict_model.py $(IMAGE) --model-path models/final_model.keras
+
+## Generate Grad-CAM Explanation
+gradcam:
+	$(PYTHON_INTERPRETER) src/visualization/gradcam.py $(IMAGE) --model-path models/final_model.keras
+
+## Run Cross-Validation (5-fold)
+cv: data
+	$(PYTHON_INTERPRETER) src/models/train_Carmine400.py --data-csv data/processed/balanced.csv --image-dir data/raw/img --output-dir models --cv-folds 5
+
+## Build Docker Image
+docker:
+	docker build -t mia:latest .
 
 ## Delete all compiled Python files
 clean:

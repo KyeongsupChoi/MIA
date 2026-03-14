@@ -1,66 +1,64 @@
 MIA
 ==============================
 
-Analyzing Chest Radiography images utilizing PyTorch and OpenCV, with insights from relevant research papers
+Chest X-ray pneumonia classifier using ResNet50 transfer learning, trained on the BIMCV-COVID19+ dataset.
 
 Project Organization
 ------------
 
     ├── data
-    │   ├── external                <- Data from third party sources.
-    │   ├── interim                 <- Intermediate data that has been transformed.
-    │   ├── processed               <- The final, canonical data sets for modeling.
-    │   └── raw                     <- The original, immutable data dump.
+    │   ├── external                <- Data from third party sources.
+    │   ├── interim                 <- Intermediate data that has been transformed.
+    │   ├── processed               <- The final, canonical data sets for modeling.
+    │   └── raw                     <- The original, immutable data dump.
     |
     ├── docs                        <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models                      <- Trained and serialized models, model predictions, or model summaries
-    │   └── Carmine400i70a.h5       <- 70% accuracy for detecting pneumonia on posteroanterior xrays
+    │   └── final_model.keras       <- Two-phase ResNet50 transfer learning model
     │
-    ├── notebooks                   <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                                   the creator's initials, and a short `-` delimited description, e.g.
-    │                                   `1.0-jqp-initial-data-exploration`.
+    ├── notebooks                   <- Jupyter notebooks for prototyping and EDA
+    │   └── Carmine400train.ipynb   <- ResNet50 training demo notebook
     │
     ├── references                  <- Data dictionaries, manuals, and all other explanatory materials.
-    │   └── research_papers         <- Academic research papers in pdf format
+    │   └── research_papers         <- Academic research papers in pdf format
     │
     ├── reports                     <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures                 <- Generated graphics and figures to be used in reporting
+    │   └── figures                 <- Generated graphics and figures to be used in reporting
     |
     ├── src                         <- Source code for use in this project.
-    │   ├── __init__.py             <- Makes src a Python module
+    │   ├── __init__.py             <- Makes src a Python module
+    │   ├── config.py               <- Shared constants and configuration
     │   │
-    │   ├── data                    <- Scripts to download or generate data
-    │   │   └── make_dataset.py     <- Scripts to turn raw data into features for modeling
+    │   ├── data                    <- Scripts to download or generate data
+    │   │   └── make_dataset.py     <- TSV→CSV filtering, balancing, and train/val/test splits
     │   │
-    │   ├── features                <- Scripts to turn raw data into features for modeling
-    │   │   ├── build_features.py   <- Script to create 800 image dataset of diagnosing pneumonia
-    │   │   └── create_sliced.py    <- Script to create sliced csv dataset
+    │   ├── features                <- Scripts to turn raw data into features for modeling
+    │   │   ├── build_features.py   <- Image loading, normalization, and class weight computation
+    │   │   └── create_sliced.py    <- Alternative CSV splitting utility
     │   │
-    │   ├── models                  <- Scripts to train models and then use trained models to make
-    │   │   │                          predictions
-    │   │   ├── predict_model.py    <- Script to use Carmine400 model to predict pneumonia on an image
-    │   │   └── train_model.py      <- Script to train Carmine400 model on 400 images to detect pneumonia on chest xrays
+    │   ├── models                  <- Scripts to train models and make predictions
+    │   │   ├── predict_model.py    <- Single and batch inference on chest X-rays
+    │   │   └── train_Carmine400.py <- Two-phase transfer learning trainer with cross-validation
     │   │
-    │   ├── tests                   <- Scripts to run automated test
-    │   │   ├── carmine_test.py     <- Script to test carmine models
-    │   │   └── tangerine.py        <- Script to test tangerine models
-    │   │
-    │   └── visualization           <- Scripts to create exploratory and results oriented visualizations
-    │       ├── exploratory.py      <- Script to do exploratory data analysis
-    │       ├── image_count.py      <- Script to count number of images in "raw/img"
-    │       └── visualize.py        <- Script to visualize chest xray with openCV
+    │   └── visualization           <- Scripts to create exploratory and results oriented visualizations
+    │       ├── exploratory.py      <- EDA on raw TSV dataset
+    │       ├── gradcam.py          <- Grad-CAM explainability overlays
+    │       ├── image_count.py      <- Image file counter utility
+    │       └── visualize.py        <- OpenCV image viewer
     │
+    ├── tests                       <- Unit tests (pytest)
+    │   ├── test_build_features.py
+    │   ├── test_config.py
+    │   ├── test_make_dataset.py
+    │   └── test_predict.py
+    │
+    ├── Dockerfile                  <- Reproducible containerized environment
     ├── LICENSE
     ├── Makefile                    <- Makefile with commands like `make data` or `make train`
     ├── README.md                   <- The top-level README for developers using this project.
-    │
-    │
-    ├── requirements.txt            <- The requirements file for reproducing the analysis environment, e.g.
-    │                                   generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py                    <- makes project pip installable (pip install -e .) so src can be imported
-    |
+    ├── requirements.txt            <- Pinned dependencies for reproducing the analysis environment
+    ├── setup.py                    <- Makes project pip installable (pip install -e .)
     └── tox.ini                     <- tox file with settings for running tox; see tox.readthedocs.io
 
 
@@ -74,13 +72,13 @@ Project Organization
 - The findings are mapped onto standard Unified Medical Language System (UMLS) terminology and they cover a wide spectrum of thoracic entities, contrasting with the much more reduced number of entities annotated in previous datasets.
 - Images are stored in high resolution and entities are localized with anatomical labels in a Medical Imaging Data Structure (MIDS) format.
 - In addition, 23 images were annotated by a team of expert radiologists to include semantic segmentation of radiographic findings.
-- Moreover, extensive information is provided, including the patient’s demographic information, type of projection and acquisition parameters for the imaging study, among others.
+- Moreover, extensive information is provided, including the patient's demographic information, type of projection and acquisition parameters for the imaging study, among others.
 - These iterations of the database include 21342 CR, 34829 DX and 7918 CT studies.
 - Link: https://github.com/BIMCV-CSUSP/BIMCV-COVID-19
 
 ## Insights and Conclusions
 
-- AI, CAD, DL systems alone seem to have a higher Sensitivity but lower Specificity than Raidologists
+- AI, CAD, DL systems alone seem to have a higher Sensitivity but lower Specificity than Radiologists
 
 - General Practitioners benefit most from CADs
 
@@ -92,7 +90,7 @@ Project Organization
 
 ## Research Citations
 
-An, J. Y., Hwang, E. J., Nam, G., Lee, S. H., Park, C. M., Goo, J. M., & Choi, Y. R. (2024). Artificial Intelligence for assessment of endotracheal tube position on chest radiographs: Validation in patients from two institutions. American Journal of Roentgenology, 222(1). https://doi.org/10.2214/ajr.23.29769 
+An, J. Y., Hwang, E. J., Nam, G., Lee, S. H., Park, C. M., Goo, J. M., & Choi, Y. R. (2024). Artificial Intelligence for assessment of endotracheal tube position on chest radiographs: Validation in patients from two institutions. American Journal of Roentgenology, 222(1). https://doi.org/10.2214/ajr.23.29769
 
 Shin, H. J., Kim, M. H., Son, N., Han, K., Kim, M. J., Kim, Y. C., Park, Y. S., Lee, E. H., & Kyong, T. (2023). Clinical implication and prognostic value of Artificial-Intelligence-Based results of chest radiographs for assessing clinical outcomes of COVID-19 patients. Diagnostics, 13(12), 2090. https://doi.org/10.3390/diagnostics13122090
 
@@ -109,10 +107,6 @@ Lee, J. H., Ahn, J. S., Chung, M. J., Jeong, Y. J., Kim, J. H., Lim, J., Kim, J.
 Hwang, E. J., Kim, H., Yoon, S. H., Goo, J. M., & Park, C. M. (2020). Implementation of a Deep Learning-Based Computer-Aided detection system for the interpretation of chest radiographs in patients suspected for COVID-19. Korean Journal of Radiology, 21(10), 1150. https://doi.org/10.3348/kjr.2020.0536
 
 ## Libraries and Frameworks Used
-Pytorch | Scikit-learn | Statsmodels | Pandas | OpenCV | Cookiecutter | Streamlit
-
-#### To-be added
-GCP | Statistics | Multithreading | Causal Inference | PGMs | Explainable AI | Prefect |
-AUC | Specificity | Sensitivity | NPV | PPV | Confusion Matrix | Metrics | Docker
+TensorFlow | Scikit-learn | Pandas | OpenCV | Cookiecutter
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
